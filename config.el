@@ -4,6 +4,18 @@
 ;; sync' after modifying this file!
 ;;(setq evil-default-state 'emacs)
 (setq initial-frame-alist (quote ((fullscreen . maximized))))
+;;(map! "SPC d" 'youdao-dictionary-search-at-point-posfram)
+(map! :n "s-d" 'youdao-dictionary-search-at-point-posframe)
+(setq youdao-dictionary-search-history-file "~/.doom.d/.youdao")
+
+
+(setq scheme-program-name "chez")
+(setq geiser-chez-binary "chez")
+(setq geiser-active-implementations '(chez))
+(add-to-list 'auto-mode-alist
+             '("\\.sls\\'" . scheme-mode)
+             '("\\.sc\\'" . scheme-mode))
+(add-hook 'geiser-mode-hook '(lambda () (local-set-key (kbd "<f5>") 'geiser-eval-buffer-and-go)))
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
