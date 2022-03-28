@@ -51,3 +51,5 @@
 
 (package! youdao-dictionary)
 (package! posframe)
+(package! org-roam-ui)
+(package! sis)

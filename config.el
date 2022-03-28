@@ -67,3 +67,69 @@
 ;;             '("\\.sls\\'" . scheme-mode)
 ;;             '("\\.sc\\'" . scheme-mode))
 ;;(add-hook 'geiser-mode-hook '(lambda () (local-set-key (kbd "<f5>") 'geiser-eval-buffer-and-go)))
+
+
+;; org-roam-ui
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking orui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+
+;; input source
+(use-package sis
+  ;; :hook
+  ;; enable the /follow context/ and /inline region/ mode for specific buffers
+  ;; (((text-mode prog-mode) . sis-context-mode)
+  ;;  ((text-mode prog-mode) . sis-inline-mode))
+
+  :config
+  ;; For MacOS
+  (sis-ism-lazyman-config
+
+   ;; English input source may be: "ABC", "US" or another one.
+   "com.apple.keylayout.ABC"
+   ;; "com.apple.keylayout.US"
+   "com.apple.inputmethod.SCIM.ITABC"
+
+   ;; Other language input source: "rime", "sogou" or another one.
+   ;; "im.rime.inputmethod.Squirrel.Rime"
+   ;; "com.sogou.inputmethod.sogou.pinyin"
+   )
+
+  ;; enable the /cursor color/ mode
+  (sis-global-cursor-color-mode t)
+  ;; enable the /respect/ mode
+  (sis-global-respect-mode t)
+  ;; enable the /context/ mode for all buffers
+  (sis-global-context-mode t)
+  ;; enable the /inline english/ mode for all buffers
+  ;; (sis-global-inline-mode t)
+  )
+
+(evil-ex-define-cmd "wq" 'doom/save-and-kill-buffer)
+(evil-ex-define-cmd "q" 'kill-current-buffer)
+
+(let ((opam-share (ignore-errors (car (process-lines "opam" "var"
+   "share")))))
+      (when (and opam-share (file-directory-p opam-share))
+       ;; Register Merlin
+       (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
+       (autoload 'merlin-mode "merlin" nil t nil)
+       ;; Automatically start it in OCaml buffers
+       (add-hook 'tuareg-mode-hook 'merlin-mode t)
+       (add-hook 'caml-mode-hook 'merlin-mode t)
+       ;; Use opam switch to lookup ocamlmerlin binary
+       (setq merlin-command 'opam)))
+
+;;(add-hook 'projectile-after-switch-project-hook #'neotree-toggle)
+(setq-default neo-autorefresh t)
