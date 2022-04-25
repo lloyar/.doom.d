@@ -131,5 +131,5 @@
        ;; Use opam switch to lookup ocamlmerlin binary
        (setq merlin-command 'opam)))
 
-;;(add-hook 'projectile-after-switch-project-hook #'neotree-toggle)
-(setq-default neo-autorefresh t)
+;; (add-hook 'projectile-after-switch-project-hook #'neotree-toggle)
+;; (setq-default neo-autorefresh t)
